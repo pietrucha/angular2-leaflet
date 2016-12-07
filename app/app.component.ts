@@ -21,6 +21,14 @@ export class AppComponent implements OnInit {
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
 
+    this.map.on('click',((e:any) =>{
+      L.popup().setLatLng(e.latlng)
+      .setContent("You clicked map: "+e.latlng.toString())
+      .openOn(this.map);
+      // alert("clicked on map "+ e.latlng);
+    })
+    );
+
   
 
   }
