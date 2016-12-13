@@ -5,7 +5,7 @@ import { WebSocketService } from './websocket.service';
 const CHAT_URL = 'ws://localhost:9090';
 
 export interface Message {
-    text: number[]    
+    text: number[]
 };
 // public Coord: number[] ;
 
@@ -17,12 +17,20 @@ export class VehicleLocationService {
         this.messages = <Subject<Message>>wsService
             .connect(CHAT_URL)
             .map((response: MessageEvent): Message => {
-                // console.log(response.data);
-                let data = JSON.parse(response.data);
+                console.log(response.data);
+                let data: Blob = response.data;
+                // var blob = new Blob(["This is my blob content"], { type: "text/plain" });
+                var reader = new FileReader();
 
-                console.log("service km1:" + JSON.stringify(data, null, 4));
+                let coordinates:number[];
+                reader.addEventListener("loadend", text => {
+                    coordinates = text.srcElement.result;
+                    console.log("Blob result "+coordinates);
+                });
+                reader.readAsText(data);
+                
                 return {
-                    text: data
+                    text: coordinates
                 }
             });
     }
