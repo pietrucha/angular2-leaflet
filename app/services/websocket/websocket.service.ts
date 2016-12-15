@@ -1,5 +1,6 @@
 import * as Rx from 'rxjs/Rx';
 import { Injectable } from '@angular/core';
+import * as SockJS from 'sockjs-client';
 
 @Injectable()
 export class WebSocketService {
