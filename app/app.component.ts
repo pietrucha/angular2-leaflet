@@ -28,13 +28,16 @@ export class AppComponent implements OnInit {
     private vehicleLocationService: VehicleLocationService
   ) {
     vehicleLocationService.messages.subscribe(msg => {
-      console.log("komunikat:" + msg.text);
+      console.log("komunikat: " + msg.text);
       // msg.text.slice()
-      this.messages.push(msg);
-      console.log("this.msg" + msg);
+      this.messages.push(msg);      
 
-      console.log("km1:" + JSON.stringify(this.messages[0], null, 4));
-      L.marker(L.latLng(msg.text[0], msg.text[1])).addTo(this.map);
+      // console.log("km1:" + JSON.stringify(this.messages[0], null, 4));
+      // L.marker(L.latLng(msg.text[0], msg.text[1])).addTo(this.map);
+      // let point:[]Number = new Number(msg);
+      // L.latLng()
+      L.geoJSON(msg.text).addTo(this.map);
+      // L.marker(point).addTo(this.map);
     })
   }
 

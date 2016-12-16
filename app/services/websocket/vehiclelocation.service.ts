@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs/Rx';
 import { WebSocketService } from './websocket.service';
 
-const CHAT_URL = 'ws://localhost:9090';
+const CHAT_URL = 'ws://localhost:9090/chat';
 
 export interface Message {
-    text: number[]
+    text: GeoJSON.GeoJsonObject
 };
 // public Coord: number[] ;
 
@@ -14,23 +14,12 @@ export class VehicleLocationService {
     public messages: Subject<Message>;
 
     constructor(wsService: WebSocketService) {
-        this.messages = <Subject<Message>>wsService
-            .connect(CHAT_URL)
+        this.messages = <Subject<Message>>wsService.connect(CHAT_URL)
             .map((response: MessageEvent): Message => {
-                console.log(response.data);
-                let data: Blob = response.data;
-                // var blob = new Blob(["This is my blob content"], { type: "text/plain" });
-                var reader = new FileReader();
-
-                let coordinates:number[];
-                reader.addEventListener("loadend", text => {
-                    coordinates = text.srcElement.result;
-                    console.log("Blob result "+coordinates);
-                });
-                reader.readAsText(data);
-                
-                return {
-                    text: coordinates
+                console.log(response.data);                
+                console.log("location "+window.location.host);
+                return {                    
+                    text: JSON.parse(response.data)
                 }
             });
     }

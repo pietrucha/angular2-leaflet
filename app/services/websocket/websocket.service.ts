@@ -1,6 +1,6 @@
 import * as Rx from 'rxjs/Rx';
 import { Injectable } from '@angular/core';
-import * as SockJS from 'sockjs-client';
+//import * as SockJS from 'sockjs-client';
 
 @Injectable()
 export class WebSocketService {
@@ -21,7 +21,6 @@ export class WebSocketService {
                 ws.onmessage = obs.next.bind(obs);
                 ws.onerror = obs.error.bind(obs);
                 ws.onclose = obs.complete.bind(obs);
-
                 return ws.close.bind(ws);
             })
 
