@@ -21,22 +21,23 @@ import 'leaflet';
 export class AppComponent implements OnInit {
   name = 'Angular';
   private map: L.Map;
-
+  private layer: L.GeoJSON;
   private messages: Message[] = [];
 
   constructor(private mapService: MapService,
     private vehicleLocationService: VehicleLocationService
   ) {
     vehicleLocationService.messages.subscribe(msg => {
-      console.log("komunikat: " + msg.text);
-      // msg.text.slice()
-      this.messages.push(msg);      
+      // console.log("komunikat: " + msg.text);
 
-      // console.log("km1:" + JSON.stringify(this.messages[0], null, 4));
+      // this.messages.push(msg);      
+
       // L.marker(L.latLng(msg.text[0], msg.text[1])).addTo(this.map);
       // let point:[]Number = new Number(msg);
       // L.latLng()
-      L.geoJSON(msg.text).addTo(this.map);
+      
+      this.layer.clearLayers();
+      this.layer.addData(msg.text);
       // L.marker(point).addTo(this.map);
     })
   }
@@ -57,7 +58,19 @@ export class AppComponent implements OnInit {
     })
     );
 
-
+    this.layer = L.geoJSON();
+    this.layer.addTo(this.map);
+    //  L.StyleFunction();
+    this.layer.setStyle(
+      () => {
+        return {
+          "weight": 5,
+          "color": '#666',
+          "dashArray": '',
+          "fillOpacity": 0.7
+        }
+      });
+    this.layer.resetStyle(this.layer);
 
   }
 }

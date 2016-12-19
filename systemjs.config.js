@@ -29,7 +29,9 @@
       // other libraries
       'rxjs':                      'npm:rxjs',
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
-      leaflet:                    'npm:leaflet/dist/leaflet-src.js',
+      'leaflet':                   'npm:leaflet/dist/leaflet-src.js',
+      'leaflet-moving-marker':     'npm:leaflet-moving-marker/index.ts',
+      
       'sockjs-client':  'npm:sockjs-client/lib/entry.js'
     },
     // packages tells the System loader how to load when no filename and/or no extension
