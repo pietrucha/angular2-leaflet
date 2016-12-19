@@ -11,7 +11,9 @@ import 'leaflet';
 @Component({
   selector: 'my-app',
   template: `
-          <div id="map" style="width:100%; height:1000px"></div>
+          <div id="map" style="width:100%; height: 100vh; margin: auto; padding:0; ">
+          test
+          </div>
   `,
   providers: [MapService,
     VehicleLocationService,

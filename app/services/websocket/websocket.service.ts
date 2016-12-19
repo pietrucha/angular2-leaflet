@@ -30,6 +30,11 @@ export class WebSocketService {
                     ws.send(JSON.stringify(data));
                 }
             }
+            // ,
+            // complete: () => {
+            //     console.log("connection closed");
+            //     setTimeout(function () { this.create(url); }, 5000);
+            // }
         }
 
         return Rx.Subject.create(observer, observable);
