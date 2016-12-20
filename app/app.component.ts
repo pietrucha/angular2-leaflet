@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { MapService } from './services/map.service';
 import { WebSocketService } from './services/websocket/websocket.service';
 import { VehicleLocationService, Message } from './services/websocket/vehiclelocation.service';
+import { Menu } from './menu/menu.component';
 
 import { ElementRef } from '@angular/core';
 import * as Rx from 'rxjs/Rx';
@@ -11,9 +12,11 @@ import 'leaflet';
 @Component({
   selector: 'my-app',
   template: `
-          <div id="map" style="width:100%; height: 100vh; margin: auto; padding:0; ">
-          test
-          </div>
+          <div style="width:100%; height: 100vh;">
+            <div id="map" style="width:100%; height: 100vh; position: relative;  ">              
+            </div>
+            <menu></menu>
+          <div>
   `,
   providers: [MapService,
     VehicleLocationService,
@@ -26,7 +29,8 @@ export class AppComponent implements OnInit {
   private layer: L.GeoJSON;
   private messages: Message[] = [];
 
-  constructor(private mapService: MapService,
+  constructor(
+    private mapService: MapService,
     private vehicleLocationService: VehicleLocationService
   ) {
     vehicleLocationService.messages.subscribe(msg => {
@@ -36,43 +40,52 @@ export class AppComponent implements OnInit {
 
       // L.marker(L.latLng(msg.text[0], msg.text[1])).addTo(this.map);
       // let point:[]Number = new Number(msg);
-      // L.latLng()
-      
       this.layer.clearLayers();
       this.layer.addData(msg.text);
-      // L.marker(point).addTo(this.map);
     })
   }
 
   ngOnInit() {
-
     this.map = this.mapService.getMap();
-
-    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(this.map);
 
     this.map.on('click', ((e: any) => {
       L.popup().setLatLng(e.latlng)
         .setContent("You clicked map: " + e.latlng.toString())
         .openOn(this.map);
-      // alert("clicked on map "+ e.latlng);
-    })
-    );
+    }));
 
-    this.layer = L.geoJSON();
+    this.layer = L.geoJSON(null, {
+      pointToLayer: function (feature, latlng) {
+        let icon = L.icon({
+          iconUrl: '../resources/images/bus_black.png'
+        });
+        let divIcon = L.divIcon({
+          html: `
+          <div>
+            <img src="../resources/images/bus_black.png"
+               tabindex="0">
+            <b style="color:red;">          
+              `+ feature.properties.name + `
+            </b>               
+          </div>
+          `, className: 'leaflet-marker-icon'
+          // class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive"
+        });
+
+        let marker = L.marker(latlng, {
+          icon: divIcon
+        });
+
+
+        marker.bindTooltip("<div>Bus: <b>" + feature.properties.name + "</b></div>",
+          {
+            offset: [24, 0],
+            direction: 'right'
+          }).openTooltip();
+
+        return marker;
+      }
+    });
     this.layer.addTo(this.map);
-    //  L.StyleFunction();
-    this.layer.setStyle(
-      () => {
-        return {
-          "weight": 5,
-          "color": '#666',
-          "dashArray": '',
-          "fillOpacity": 0.7
-        }
-      });
-    this.layer.resetStyle(this.layer);
-
   }
 }
