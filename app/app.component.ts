@@ -37,9 +37,8 @@ export class AppComponent implements OnInit {
       // console.log("komunikat: " + msg.text);
 
       // this.messages.push(msg);      
-
       // L.marker(L.latLng(msg.text[0], msg.text[1])).addTo(this.map);
-      // let point:[]Number = new Number(msg);
+      
       this.layer.clearLayers();
       this.layer.addData(msg.text);
     })
@@ -64,18 +63,19 @@ export class AppComponent implements OnInit {
           <div>
             <img src="../resources/images/bus_black.png"
                tabindex="0">
-            <b style="color:red;">          
-              `+ feature.properties.name + `
-            </b>               
+            <div style="position:absolute; top:10; border-radius:50%; 
+              background:green; width:15px;height:15px;">
+              <b style="color:black; text-align:center; vertical-align: middle;margin:0 auto;">          
+                `+ feature.properties.name + `
+              </b>               
+            </div>
           </div>
-          `, className: 'leaflet-marker-icon'
-          // class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive"
+          `, className: 'leaflet-marker-icon'          
         });
 
         let marker = L.marker(latlng, {
           icon: divIcon
         });
-
 
         marker.bindTooltip("<div>Bus: <b>" + feature.properties.name + "</b></div>",
           {
