@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
 
       // this.messages.push(msg);      
       // L.marker(L.latLng(msg.text[0], msg.text[1])).addTo(this.map);
-      
+
       this.layer.clearLayers();
       this.layer.addData(msg.text);
     })
@@ -70,7 +70,7 @@ export class AppComponent implements OnInit {
               </b>               
             </div>
           </div>
-          `, className: 'leaflet-marker-icon'          
+          `, className: 'leaflet-marker-icon'
         });
 
         let marker = L.marker(latlng, {
@@ -87,5 +87,26 @@ export class AppComponent implements OnInit {
       }
     });
     this.layer.addTo(this.map);
+
+    let pts = [[
+      L.latLng(49.72453, 21.44437),
+      L.latLng(49.73114, 21.46325),
+      L.latLng(49.73646, 21.46754),
+      L.latLng(49.74168, 21.46849),
+      L.latLng(49.74506, 21.47346),
+      L.latLng(49.75127, 21.47269),
+    ],[
+      L.latLng(49.62453, 21.44437),
+      L.latLng(49.63114, 21.46325),
+      L.latLng(49.63646, 21.46754),
+      L.latLng(49.64168, 21.46849),
+      L.latLng(49.64506, 21.47346),
+      L.latLng(49.65127, 21.47269),
+    ]];
+
+    let polyline = L.polyline(pts, { color: "red" });
+    polyline.addTo(this.map);
+    
+    
   }
 }
