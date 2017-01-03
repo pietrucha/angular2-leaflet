@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { LineService } from '../services/line.service';
 
 @Component({
     selector: "menu",
@@ -12,15 +13,23 @@ import { Component } from '@angular/core';
         <div class="panel panel-default">
             <button type="button" class="list-group-item" data-toggle="collapse" data-target="#demo">Lines</button>
             <div id="demo" class="panel-collapse collapse">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                test {{data}}
             </div>
         </div>        
         <button type="button" class="list-group-item">Stops</button>        
     </div>
-    `
+    `,
+    providers: [LineService]
 })
-export class Menu {
+export class Menu implements OnInit {
+    private data:string;
+    constructor(private lineService: LineService) {
+    }
+
+    ngOnInit() {
+        this.lineService.getLines().subscribe(
+            data => this.data = JSON.stringify(data),error => console.log(error)
+        );
+    }
 
 }
