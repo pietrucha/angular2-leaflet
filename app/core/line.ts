@@ -1,6 +1,9 @@
-export class Line {
-    public id: String;
-    public name: String;
-    public type: String;
+import 'leaflet';
+
+export interface Line {
+    id: string;
+    name: string;
+    type: string;
+    geometries: L.Polyline;
 
 }

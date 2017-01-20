@@ -32,4 +32,10 @@ export class Menu implements OnInit {
         );
     }
 
+    getLine(id:string){
+        this.lineService.getLine(id).subscribe(
+            data => this.data = JSON.stringify(data),error => console.log(error)
+        );
+    }
+
 }

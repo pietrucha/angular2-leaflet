@@ -9,8 +9,11 @@ export class LineService {
     constructor(private http: Http) {
     }
 
-    getLines() {        
+    getLines() {
         return this.http.get(LINES_URL).map(res => res.json());
+    }
+    getLine(id: string) {
+        return this.http.get(LINES_URL + "/" + id).map(res => res.json());
     }
 
 }
